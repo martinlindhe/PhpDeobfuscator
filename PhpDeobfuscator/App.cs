@@ -11,28 +11,32 @@ namespace PhpDeobfuscator
 		{
 			string filename = "../../../sample1.txt";
 
-
 			var lines = ReadTextFile (filename);
 
-			foreach (var line in lines) {
+			var decodedLines = PhpDeobfuscator.Decode (lines);
+			Console.WriteLine (decodedLines);
 
-				Console.WriteLine (PhpDeobfuscator.DecodeLine (line));
-			}
+
+			string s = "$x=1; eval( base64_decode(\"ZWNobyAiaGVsbG8gd29ybGQiOw==\") ); $y=2;";
+
+			var x = PhpDeobfuscator.Decode (s);
+
+			Console.WriteLine (x);
 		}
 
-		public static List<string> ReadTextFile (string filename)
+		public static string ReadTextFile (string filename)
 		{
-			FileStream fStream = new FileStream (filename, FileMode.Open, FileAccess.Read);
-			StreamReader inFile = new StreamReader (fStream);
+			FileStream stream = new FileStream (filename, FileMode.Open, FileAccess.Read);
+			StreamReader reader = new StreamReader (stream);
 
-			var lines = new List<string> ();
+			var lines = new StringBuilder ();
 
-			while (!inFile.EndOfStream) {
-				var currLine = inFile.ReadLine ();
-				lines.Add (currLine);
+			while (!reader.EndOfStream) {
+				lines.Append (reader.ReadLine ());
+				lines.Append ("\n");
 			}
 
-			return lines;
+			return lines.ToString ();
 		}
 	}
 }
