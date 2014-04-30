@@ -2,3 +2,5 @@
 *.mdb
 *.dll
 *.userprefs
+obj/
+bin/
