@@ -32,7 +32,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="PhpDeobfuscator.cs" />
+    <Compile Include="Deobfuscate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md">

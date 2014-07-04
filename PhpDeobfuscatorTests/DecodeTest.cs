@@ -8,12 +8,11 @@ public class DecodeTest
 	[Test]
 	public static void FromFile ()
 	{
-		string filename = "../../../samples/sample1.txt";
+		string filename = "../../../samples/rot13.php";
 
-		var decodedLines = PhpDeobfuscator.PhpDeobfuscator.DecodeTextFile (filename);
+		var decodedLines = PhpDeobfuscator.Deobfuscate.DecodeTextFile (filename);
 
-		Console.WriteLine (decodedLines);
-
+		//Console.WriteLine (decodedLines);
 	}
 
 	[Test]
@@ -23,7 +22,7 @@ public class DecodeTest
 
 		Assert.AreEqual (
 			"${\"GLOBALS\"}[\"hfmnibgtig\"]",
-			PhpDeobfuscator.PhpDeobfuscator.Decode (line)
+			PhpDeobfuscator.Deobfuscate.Decode (line)
 		);
 	}
 
@@ -31,21 +30,30 @@ public class DecodeTest
 	public static void EvalBase64 ()
 	{
 		var line = "eval(base64_decode('ZWNobyAiaGVsbG9cbiI7'));";
-		Console.WriteLine (PhpDeobfuscator.PhpDeobfuscator.Decode (line));
 		Assert.AreEqual (
 			"echo \"hello\\n\";",
-			PhpDeobfuscator.PhpDeobfuscator.Decode (line)
+			PhpDeobfuscator.Deobfuscate.Decode (line)
 		);
 	}
 
 	[Test]
-	public static void EvalBase64_2 ()
+	public static void EvalBase64InContext ()
 	{
 		var line = "$x=1; eval( base64_decode(\"ZWNobyAiaGVsbG8gd29ybGQiOw==\") ); $y=2;";
 
 		Assert.AreEqual (
 			"$x=1; echo \"hello world\"; $y=2;",
-			PhpDeobfuscator.PhpDeobfuscator.Decode (line)
+			PhpDeobfuscator.Deobfuscate.Decode (line)
+		);
+	}
+
+	[Test]
+	public static void PrettyPrint ()
+	{
+		var line = "$x=1;echo $x;$x=2;";
+		Assert.AreEqual (
+			"",
+			PhpDeobfuscator.Deobfuscate.PrettyPrint (line)
 		);
 	}
 

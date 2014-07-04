@@ -2,9 +2,13 @@
 using System.Text;
 using System.IO;
 
+/**
+ * TODO rework from scratch: first parse into "executation blocks": separate by ;
+ * TODO     next, recognize & replace specific php commands
+ */
 namespace PhpDeobfuscator
 {
-	public class PhpDeobfuscator
+	public class Deobfuscate
 	{
 		/**
 		 * @param data PHP code 
