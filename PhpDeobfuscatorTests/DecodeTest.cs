@@ -6,15 +6,16 @@ using PhpDeobfuscator;
 public class DecodeTest
 {
 	[Test]
-	public static void FromFile()
+	public static void FromFile ()
 	{
-		string filename = "../samples/sample1.txt";
+		string filename = "../../../samples/sample1.txt";
 
 		var decodedLines = PhpDeobfuscator.PhpDeobfuscator.DecodeTextFile (filename);
 
 		Console.WriteLine (decodedLines);
 
 	}
+
 	[Test]
 	public static void Hex1 ()
 	{
@@ -27,7 +28,7 @@ public class DecodeTest
 	}
 
 	[Test]
-	public static void EvalBase64()
+	public static void EvalBase64 ()
 	{
 		var line = "eval(base64_decode('ZWNobyAiaGVsbG9cbiI7'));";
 		Console.WriteLine (PhpDeobfuscator.PhpDeobfuscator.Decode (line));
