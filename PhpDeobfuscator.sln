@@ -5,18 +5,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhpDeobfuscator", "PhpDeobf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhpDeobfuscatorTests", "PhpDeobfuscatorTests\PhpDeobfuscatorTests.csproj", "{175A5E45-25ED-44AD-BE47-C60BEBBDE8F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Punku", "..\Punku\Punku\Punku.csproj", "{09D942E9-3228-4FB0-A1C0-64969E2322BF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{09D942E9-3228-4FB0-A1C0-64969E2322BF}.Debug|x86.ActiveCfg = Debug|x86
-		{09D942E9-3228-4FB0-A1C0-64969E2322BF}.Debug|x86.Build.0 = Debug|x86
-		{09D942E9-3228-4FB0-A1C0-64969E2322BF}.Release|x86.ActiveCfg = Release|x86
-		{09D942E9-3228-4FB0-A1C0-64969E2322BF}.Release|x86.Build.0 = Release|x86
 		{175A5E45-25ED-44AD-BE47-C60BEBBDE8F2}.Debug|x86.ActiveCfg = Debug|x86
 		{175A5E45-25ED-44AD-BE47-C60BEBBDE8F2}.Debug|x86.Build.0 = Debug|x86
 		{175A5E45-25ED-44AD-BE47-C60BEBBDE8F2}.Release|x86.ActiveCfg = Release|x86

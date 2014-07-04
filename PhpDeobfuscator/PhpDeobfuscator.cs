@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.IO;
 
 namespace PhpDeobfuscator
 {
@@ -11,6 +12,22 @@ namespace PhpDeobfuscator
 
 			var unhexed = DecodeHex (line);
 			return EvalAndBase64StringDecode (unhexed);
+		}
+
+
+		public static string DecodeTextFile (string filename)
+		{
+			FileStream stream = new FileStream (filename, FileMode.Open, FileAccess.Read);
+			StreamReader reader = new StreamReader (stream);
+
+			var lines = new StringBuilder ();
+
+			while (!reader.EndOfStream) {
+				lines.Append (reader.ReadLine ());
+				lines.Append ("\n");
+			}
+
+			return Decode(lines.ToString ());
 		}
 
 		private static string DecodeHex (string line)
