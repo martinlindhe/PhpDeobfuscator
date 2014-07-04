@@ -3,26 +3,32 @@ using NUnit.Framework;
 using PhpDeobfuscator;
 
 [TestFixture]
-public class DecodeTest
+public class DeobfuscateTest
 {
 	[Test]
 	public static void FromFile ()
 	{
 		string filename = "../../../samples/rot13.php";
 
-		var decodedLines = PhpDeobfuscator.Deobfuscate.DecodeTextFile (filename);
-
-		//Console.WriteLine (decodedLines);
+		Assert.AreEqual (
+			"<?php\n" +
+			"\n" +
+			"$encoded = str_rot13('echo \"hello\\n\";\n');\n" +
+			"// rpub \"uryyb\\a\";\n" +
+			"eval(str_rot13('rpub \"uryyb\\a\";\n'));\n" +
+			";\n",
+			Deobfuscate.DecodeTextFile (filename)
+		);
 	}
 
 	[Test]
 	public static void Hex1 ()
 	{
-		var line = "${\"G\\x4c\\x4f\\x42A\\x4c\\x53\"}[\"h\\x66\\x6d\\x6ei\\x62g\\x74\\x69\\x67\"]";
+		var line = "${\"G\\x4c\\x4f\\x42A\\x4c\\x53\"}[\"h\\x66\\x6d\\x6ei\\x62g\\x74\\x69\\x67\"];";
 
 		Assert.AreEqual (
-			"${\"GLOBALS\"}[\"hfmnibgtig\"]",
-			PhpDeobfuscator.Deobfuscate.Decode (line)
+			"${\"GLOBALS\"}[\"hfmnibgtig\"];\n",
+			Deobfuscate.Decode (line)
 		);
 	}
 
@@ -31,8 +37,8 @@ public class DecodeTest
 	{
 		var line = "eval(base64_decode('ZWNobyAiaGVsbG9cbiI7'));";
 		Assert.AreEqual (
-			"echo \"hello\\n\";",
-			PhpDeobfuscator.Deobfuscate.Decode (line)
+			"echo \"hello\\n\";\n",
+			Deobfuscate.Decode (line)
 		);
 	}
 
@@ -42,8 +48,8 @@ public class DecodeTest
 		var line = "$x=1; eval( base64_decode(\"ZWNobyAiaGVsbG8gd29ybGQiOw==\") ); $y=2;";
 
 		Assert.AreEqual (
-			"$x=1; echo \"hello world\"; $y=2;",
-			PhpDeobfuscator.Deobfuscate.Decode (line)
+			"$x=1;\n" + "echo \"hello world\";\n" + "$y=2;\n",
+			Deobfuscate.Decode (line)
 		);
 	}
 
@@ -52,8 +58,8 @@ public class DecodeTest
 	{
 		var line = "$x=1;echo $x;$x=2;";
 		Assert.AreEqual (
-			"",
-			PhpDeobfuscator.Deobfuscate.PrettyPrint (line)
+			"$x=1;\n" + "echo $x;\n" + "$x=2;\n",
+			Deobfuscate.PrettyPrint (line)
 		);
 	}
 

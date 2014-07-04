@@ -3,8 +3,7 @@ using System.Text;
 using System.IO;
 
 /**
- * TODO rework from scratch: first parse into "executation blocks": separate by ;
- * TODO     next, recognize & replace specific php commands
+ * TODO  recognize & replace specific php commands
  */
 namespace PhpDeobfuscator
 {
@@ -15,8 +14,6 @@ namespace PhpDeobfuscator
 		 */
 		public static string Decode (string data)
 		{
-			// TODO only decode hex inside "" strings
-
 			var unhexed = DecodeHex (data);
 			var res = EvalAndBase64StringDecode (unhexed);
 
@@ -24,24 +21,40 @@ namespace PhpDeobfuscator
 			return res;
 		}
 
-		/**
-		 * Simple pretty print:
-		 * - newline after ;
-		 * - indent 4 spaces in rows following each {
-		 * - unindent 4 spaces following each }
-		 */ 
+		/*
+	 	 * - TODO indent 4 spaces in rows following each {
+	 	 * - TODO unindent 4 spaces following each }
+		 */
 		public static string PrettyPrint (string phpCode)
 		{
-			var res = phpCode;
-			// TODO impl
-			return res;
+			var res = new StringBuilder ();
+
+			foreach (var line in TokenizePhpCode (phpCode)) {
+				res.Append (line.Trim ());
+
+				if (line.Length > 0) {
+					res.Append (";");
+					res.Append ("\n");
+				}
+			}
+
+			return res.ToString ();
+		}
+
+		/**
+		 * Splits string by each ;
+		 */ 
+		private static string[] TokenizePhpCode (string phpCode)
+		{
+			// TODO only split when ; is not inside "" or ''
+			return phpCode.Split (new string[] { ";" }, StringSplitOptions.None);
 		}
 
 
 		public static string DecodeTextFile (string filename)
 		{
-			FileStream stream = new FileStream (filename, FileMode.Open, FileAccess.Read);
-			StreamReader reader = new StreamReader (stream);
+			var stream = new FileStream (filename, FileMode.Open, FileAccess.Read);
+			var reader = new StreamReader (stream);
 
 			var lines = new StringBuilder ();
 
@@ -55,25 +68,25 @@ namespace PhpDeobfuscator
 
 		private static string DecodeHex (string line)
 		{
+			// TODO only decode hex inside "" strings
 			string findStr = @"\x";
 
-			var x = new StringBuilder ();
+			var res = new StringBuilder ();
 
 			for (int i = 0; i < line.Length; i++) {
 				if ((i < line.Length - findStr.Length) && line.Substring (i, findStr.Length) == findStr) {
 
 					var hex = line.Substring (i + 2, 2);
-
 					int intValue = int.Parse (hex, System.Globalization.NumberStyles.HexNumber);
 
-					x.Append ((char)intValue);
+					res.Append ((char)intValue);
 					i += 3;
 				} else {
-					x.Append (line.Substring (i, 1));
+					res.Append (line.Substring (i, 1));
 				}
 			}
 
-			return x.ToString ();
+			return res.ToString ();
 		}
 
 		/**
@@ -129,8 +142,8 @@ namespace PhpDeobfuscator
 
 		private static string FromBase64 (string input)
 		{
-			var x = System.Convert.FromBase64String (input);
-			return System.Text.ASCIIEncoding.UTF8.GetString (x);
+			var x = Convert.FromBase64String (input);
+			return ASCIIEncoding.UTF8.GetString (x);
 		}
 	}
 }

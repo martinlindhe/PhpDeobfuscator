@@ -31,7 +31,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="DecodeTest.cs" />
+    <Compile Include="DeobfuscateTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PhpDeobfuscator\PhpDeobfuscator.csproj">
